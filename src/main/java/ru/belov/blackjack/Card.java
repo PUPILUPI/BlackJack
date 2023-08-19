@@ -31,4 +31,7 @@ public enum Card {
     public Nuclide getNuclide() {
         return this.nuclide;
     }
+    public int getCardValue() {
+        return this.cardValue;
+    }
 }

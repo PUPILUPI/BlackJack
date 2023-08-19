@@ -24,8 +24,11 @@ public class StartScreen extends javax.swing.JFrame {
     public StartScreen() {
         initComponents();
         ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "/imgSource/atom.png");
+        ImageIcon img2 = new ImageIcon(System.getProperty("user.dir") + "/imgSource/startScreenCards.png");
         ImageIcon resizedImg = new ImageIcon(img.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+        ImageIcon resizedImg2 = new ImageIcon(img2.getImage().getScaledInstance(250, 150, java.awt.Image.SCALE_SMOOTH));
         nameOfGame.setIcon(resizedImg);
+        picture.setIcon(resizedImg2);
     }
 
     /**
@@ -65,9 +68,12 @@ public class StartScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         nameOfGame = new javax.swing.JLabel();
         setCardsButton = new javax.swing.JButton();
+        startGameButton = new javax.swing.JButton();
+        picture = new javax.swing.JLabel();
+        playersLabel = new javax.swing.JLabel();
+        playersComboBox = new javax.swing.JComboBox<>();
 
         setCrads.setFocusTraversalPolicyProvider(true);
-        setCrads.setPreferredSize(new java.awt.Dimension(440, 400));
         setCrads.setSize(new java.awt.Dimension(440, 400));
 
         nameLable.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
@@ -266,6 +272,20 @@ public class StartScreen extends javax.swing.JFrame {
             }
         });
 
+        startGameButton.setText("Начать игру");
+        startGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startGameButtonActionPerformed(evt);
+            }
+        });
+
+        picture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        playersLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        playersLabel.setText("выберите число соперников:");
+
+        playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,10 +293,23 @@ public class StartScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(playersLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(playersComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(picture, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(196, 196, 196)
+                        .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -288,8 +321,16 @@ public class StartScreen extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(playersLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(picture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -304,6 +345,11 @@ public class StartScreen extends javax.swing.JFrame {
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         refreshCards();
     }//GEN-LAST:event_saveButtonActionPerformed
+
+    private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
+        TwoPlayersScreen screen = new TwoPlayersScreen();
+        screen.setVisible(true);
+    }//GEN-LAST:event_startGameButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -422,6 +468,9 @@ public class StartScreen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> nineComboBox;
     private javax.swing.JLabel nineLable;
     private javax.swing.JLabel nuclideLable;
+    private javax.swing.JLabel picture;
+    private javax.swing.JComboBox<String> playersComboBox;
+    private javax.swing.JLabel playersLabel;
     private javax.swing.JComboBox<String> queenComboBox;
     private javax.swing.JLabel queenLable;
     private javax.swing.JButton saveButton;
@@ -431,6 +480,7 @@ public class StartScreen extends javax.swing.JFrame {
     private javax.swing.JLabel sevenLable;
     private javax.swing.JComboBox<String> sixComboBox;
     private javax.swing.JLabel sixLable;
+    private javax.swing.JButton startGameButton;
     private javax.swing.JComboBox<String> tenComboBox;
     private javax.swing.JLabel tenLable;
     // End of variables declaration//GEN-END:variables
