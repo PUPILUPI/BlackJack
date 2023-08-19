@@ -17,7 +17,7 @@ public interface UpdateImages {
     void updateAllPlayersImgs();
 
     default void updateBankInfo(JLabel bankInfoLabel, Game game) {
-       bankInfoLabel.setText("<html> текущий банк: " + game.getBank() + "<br>Ваша ставка: " + game.getPlayers().get(0).getCurrentBid() +"<br>ваш баланс: " + game.getPlayers().get(0).getBalance() +"</html>" );
+       bankInfoLabel.setText("<html> текущий банк: " + game.getBank()  +"<br>текущая ставка в игре: " + game.getCurrentBid() + "<br>Ваша ставка: " + game.getPlayers().get(0).getCurrentBid() +"<br>ваш баланс: " + game.getPlayers().get(0).getBalance() + "</html>" );
     }
 
     default void updateImgsForUser(Player user,

@@ -25,9 +25,13 @@ public class User extends Player {
 
     @Override
     public boolean placeBet(Game game) {
+        if (game.getCurrentBid() == this.currentBid && game.getNumberOfMoves() > 0) {
+            game.setNumberOfMoves(0);
+        }
         this.balance -= this.bid;
         this.currentBid += this.bid;
         game.setBank(game.getBank() + bid);
+        game.setCurrentBid(this.currentBid);
         return true;
     }
 

@@ -284,8 +284,8 @@ public class TwoPlayersScreen extends javax.swing.JFrame implements UpdateImages
         ImageIcon deckImg = new ImageIcon(System.getProperty("user.dir") + "/imgSource/deck.jpg");
         ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
         deckLabel.setIcon(resizedImg);
-        game.getPlayers().add(new User());
-        game.getPlayers().add(new Bot());
+        game.getPlayers().add(0, new User());
+        game.getPlayers().add(1, new Bot());
         game.startGame();
         updateAllPlayersImgs();
         updateBankInfo(this.bankInfoLabel, this.game);

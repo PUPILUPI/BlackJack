@@ -17,7 +17,6 @@ public class Bot extends Player {
 
     @Override
     public boolean takeCard(List<CardWithSuit> deckCards) {
-//        System.out.println("до взятия карты: " + this.totalPoints);
         Random random = new Random();
         double probability;
         if (this.totalPoints <= 11) {
@@ -30,11 +29,13 @@ public class Bot extends Player {
             probability = 0;
         }
         if (random.nextDouble() < probability) {
+            System.out.println("очки до взятия карты: " + totalPoints);
+            System.out.println(probability);
             CardWithSuit card = deckCards.get(0);
             this.cards.add(card);
             this.totalPoints += card.getCard().getCardValue();
             deckCards.remove(0);
-//            System.out.println("после взятия карты: " + this.totalPoints);
+            System.out.println("очки после зятия карты: " + totalPoints);
             return true;
         }
         return false;
@@ -42,9 +43,23 @@ public class Bot extends Player {
 
     @Override
     public boolean placeBet(Game game) {
-        this.balance -= this.bid;
-        this.currentBid += this.bid;
-        game.setBank(game.getBank() + bid);
-        return true;
+        boolean b = (this.totalPoints > 18 && this.currentBid < 30 && game.getNumberOfMoves() > 0);
+        if (b) {
+//            System.out.println("жопа");
+            game.setNumberOfMoves(0);
+        }
+//        System.out.println("текущая ставка бота: " + currentBid);
+//        System.out.println("текущая ставка в игре: " + game.getCurrentBid());
+//        System.out.println(this.currentBid != game.getCurrentBid());
+        if (this.currentBid != game.getCurrentBid() || b) {
+
+            this.balance -= this.bid;
+            this.currentBid += this.bid;
+            game.setBank(game.getBank() + bid);
+            game.setCurrentBid(this.currentBid);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
