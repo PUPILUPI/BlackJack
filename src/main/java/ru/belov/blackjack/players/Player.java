@@ -15,7 +15,7 @@ public abstract class Player {
     protected final int bid = 10;
     protected List<CardWithSuit> cards = new ArrayList<>();
     protected int totalPoints = 0;
-    protected long balance = 100;
+    protected int balance = 100;
 
     public int getCurrentBid() {
         return currentBid;
@@ -33,11 +33,11 @@ public abstract class Player {
         this.totalPoints = totalPoints;
     }
 
-    public long getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(long balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 

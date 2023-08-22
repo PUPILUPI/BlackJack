@@ -43,7 +43,7 @@ public class Bot extends Player {
 
     @Override
     public boolean placeBet(Game game) {
-        boolean b = (this.totalPoints > 18 && this.currentBid < 30 && game.getNumberOfMoves() > 0);
+        boolean b = (this.totalPoints > 18 && this.currentBid < 30 && game.getNumberOfMoves() > 0 && this.balance > 0);
         if (b) {
 //            System.out.println("жопа");
             game.setNumberOfMoves(0);

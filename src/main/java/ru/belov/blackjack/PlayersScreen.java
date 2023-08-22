@@ -10,15 +10,46 @@ import javax.swing.JLabel;
  *
  * @author Xiaomi
  */
-public class ThreePlayersScreen extends PlayersScreen {
+public abstract class PlayersScreen extends javax.swing.JFrame implements UpdateVisualInfo {
 
-    /**
-     * Creates new form ThreePlayersGame
-     *
-     * @param parent
-     */
-    public ThreePlayersScreen(StartScreen parent) {
-        super(parent);
+    protected final StartScreen parent;
+    protected Game game;
+    protected int winnings = 0;
+    protected int losses = 0;
+
+    public PlayersScreen(StartScreen parent) {
+        this.parent = parent;
+        initComponents();
+        this.addWindowListener(new MyWindowAdapter());
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    public int getWinnings() {
+        return winnings;
+    }
+
+    public void setWinnings(int winnings) {
+        this.winnings = winnings;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    @Override
+    public StartScreen getParent() {
+        return parent;
     }
 
     /**
@@ -46,35 +77,13 @@ public class ThreePlayersScreen extends PlayersScreen {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    @Override
-    void startGame() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    abstract void startGame();
 
-    @Override
-    JLabel getBankInfoLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    abstract JLabel getBankInfoLabel();
 
-    @Override
-    public void updateAllPlayersImgs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    abstract JLabel getLossesLabel();
 
-    @Override
-    JLabel getLossesLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    JLabel getWinningsLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-
+    abstract JLabel getWinningsLabel();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

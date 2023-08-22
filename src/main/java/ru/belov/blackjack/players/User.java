@@ -5,6 +5,7 @@
 package ru.belov.blackjack.players;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import ru.belov.blackjack.CardWithSuit;
 import ru.belov.blackjack.Game;
 
@@ -25,6 +26,10 @@ public class User extends Player {
 
     @Override
     public boolean placeBet(Game game) {
+        if (this.balance == 0) {
+            JOptionPane.showMessageDialog(null, "У вас недостаточно денег, чтобы повысить ставку.", "Уведомление", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
         if (game.getCurrentBid() == this.currentBid && game.getNumberOfMoves() > 0) {
             game.setNumberOfMoves(0);
         }
