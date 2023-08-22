@@ -54,8 +54,9 @@ public class MyWindowAdapter extends WindowAdapter {
                 JOptionPane.showMessageDialog(null, "У вас недостаточно денег, чтобы начать  новую игру,\n вы перейдете в меню.", "Уведомление", JOptionPane.WARNING_MESSAGE);
                 initClosing(closingFrame, parent);
             } else {
+                closingFrame.setLosses(closingFrame.getLosses() + 1);
+                parent.setGlobalBank(parent.getGlobalBank() + closingFrame.getGame().getPlayers().get(0).getBalance());
                 closingFrame.startGame();
-                closingFrame.getGame().getPlayers().forEach(player -> player.setBalance(balance - 10));
                 closingFrame.updateBankInfo(closingFrame.getBankInfoLabel(), closingFrame.getGame());
                 closingFrame.updateStatistics(closingFrame);
             }

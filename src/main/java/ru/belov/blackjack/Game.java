@@ -75,11 +75,11 @@ public class Game {
     }
 
     public String makeMove() {
-        System.out.println(this.betOrTake + "хуй");
         boolean b = this.betOrTake;
         int index = this.indexOfCurrentPlayer;
+        Player player = this.players.get(index);
         if (b) {
-            if (this.players.get(index).takeCard(this.deck.getCards())) {
+            if (player.takeCard(this.deck.getCards())) {
                 changePhaseAndIncreaseIndex();
                 return "Игрок " + (index + 1) + " взял карту";
             } else {
@@ -87,7 +87,7 @@ public class Game {
                 return "Игрок " + (index + 1) + " не взял карту";
             }
         } else {
-            if (this.players.get(index).placeBet(this)) {
+            if (player.placeBet(this)) {
                 changePhaseAndIncreaseIndex();
                 return "Игрок " + (index + 1) + " повысил ставку";
             } else {
@@ -111,8 +111,7 @@ public class Game {
         System.out.println(numberOfMoves);
         this.numberOfMoves++;
         if (numberOfMoves % players.size() == 0) {
-//        if (numberOfMoves == players.size()) {
-            
+
             if (this.betOrTake == true) {
                 System.out.println(numberOfMoves);
                 System.out.println("изменение 1");

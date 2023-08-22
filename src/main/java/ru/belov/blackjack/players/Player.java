@@ -53,13 +53,13 @@ public abstract class Player {
 
     public abstract boolean placeBet(Game game);
 
-    public Boolean checkPoints() {
+    public int checkPoints() {
         if (this.totalPoints > 21) {
-            return false;
+            return 0;
         }
         if (this.totalPoints == 21) {
-            return true;
+            return 1;
         }
-        return null;
+        return 2;
     }
 }

@@ -416,22 +416,18 @@ public class StartScreen extends javax.swing.JFrame {
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         switch (Integer.parseInt((String) playersComboBox.getSelectedItem())) {
             case 1 -> {
-                globalBank -= 100;
                 PlayersScreen screen = new TwoPlayersScreen(this);
                 screen.setVisible(true);
             }
             case 2 -> {
-                globalBank -= 100;
                 PlayersScreen screen = new ThreePlayersScreen(this);
                 screen.setVisible(true);
             }
             case 3 -> {
-                globalBank -= 100;
                 PlayersScreen screen = new FourPlayersScreen(this);
                 screen.setVisible(true);
             }
             case 4 -> {
-                globalBank -= 100;
                 PlayersScreen screen = new FivePlayersScreen(this);
                 screen.setVisible(true);
             }
@@ -473,6 +469,17 @@ public class StartScreen extends javax.swing.JFrame {
                 new StartScreen().setVisible(true);
             }
         });
+    }
+
+    public int getBalanceForGame() {
+        if (globalBank >= 100) {
+            globalBank -= 100;
+            return 100;
+        } else {
+            int balanceForGame = globalBank;
+            globalBank = 0;
+            return balanceForGame;
+        }
     }
 
     private void initComboBoxes() {

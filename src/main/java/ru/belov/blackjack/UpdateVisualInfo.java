@@ -81,4 +81,7 @@ public interface UpdateVisualInfo {
             }
         }
     }
+    default ImageIcon generateIconForLoser(String cardSuit) {
+        return null;
+    }
 }

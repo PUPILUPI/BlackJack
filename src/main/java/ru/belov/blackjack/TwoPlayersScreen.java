@@ -321,6 +321,7 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
         deckLabel.setIcon(resizedImg);
         game.getPlayers().add(0, new User());
         game.getPlayers().add(1, new Bot());
+        game.getPlayers().forEach(player -> player.setBalance(parent.getBalanceForGame()));
         game.startGame();
         updateAllPlayersImgs();
         updateBankInfo(this.bankInfoLabel, this.game);
