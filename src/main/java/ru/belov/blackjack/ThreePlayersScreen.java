@@ -4,7 +4,10 @@
  */
 package ru.belov.blackjack;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.players.Bot;
+import ru.belov.blackjack.players.User;
 
 /**
  *
@@ -19,6 +22,8 @@ public class ThreePlayersScreen extends PlayersScreen {
      */
     public ThreePlayersScreen(StartScreen parent) {
         super(parent);
+        initComponents();
+        startGame();
     }
 
     /**
@@ -30,54 +35,409 @@ public class ThreePlayersScreen extends PlayersScreen {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        passButton = new javax.swing.JButton();
+        takeCardButton = new javax.swing.JButton();
+        noTakeButton = new javax.swing.JButton();
+        raiseBetButton = new javax.swing.JButton();
+        noRaiseBetButton = new javax.swing.JButton();
+        makeMoveButton = new javax.swing.JButton();
+        lossesLabel = new javax.swing.JLabel();
+        winningsLabel = new javax.swing.JLabel();
+        deckLabel = new javax.swing.JLabel();
+        bankInfoLabel = new javax.swing.JLabel();
+        lastMoveInfo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        bot1label = new javax.swing.JLabel();
+        bot2label = new javax.swing.JLabel();
+        firstCardLabel = new javax.swing.JLabel();
+        secondCardLabel = new javax.swing.JLabel();
+        thirdCardLabel = new javax.swing.JLabel();
+        fourthCardLabel = new javax.swing.JLabel();
+        fifthCardLabel = new javax.swing.JLabel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Игрок A (Вы)");
+
+        passButton.setText("Пас");
+        passButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passButtonActionPerformed(evt);
+            }
+        });
+
+        takeCardButton.setText("Взять карту");
+        takeCardButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                takeCardButtonActionPerformed(evt);
+            }
+        });
+
+        noTakeButton.setText("не брать");
+        noTakeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noTakeButtonActionPerformed(evt);
+            }
+        });
+
+        raiseBetButton.setText("Повысить ставку");
+        raiseBetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                raiseBetButtonActionPerformed(evt);
+            }
+        });
+
+        noRaiseBetButton.setText("не повышать");
+        noRaiseBetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noRaiseBetButtonActionPerformed(evt);
+            }
+        });
+
+        makeMoveButton.setText("дать походить");
+        makeMoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                makeMoveButtonActionPerformed(evt);
+            }
+        });
+
+        lossesLabel.setText("проигрыши");
+
+        winningsLabel.setText("выигрыши");
+
+        bankInfoLabel.setText("bank info");
+
+        lastMoveInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lastMoveInfo.setText("Здесь будет информация о последнем ходе");
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("Игрок B");
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Игрок C");
+
+        bot1label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        bot2label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        firstCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        secondCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        thirdCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fourthCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        fifthCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(bankInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(32, 32, 32)
+                                .addComponent(firstCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(secondCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(thirdCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fourthCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(fifthCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(passButton, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(132, 132, 132))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lossesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(deckLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(30, 30, 30)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lastMoveInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(32, 32, 32)
+                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(73, 73, 73)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 28, Short.MAX_VALUE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(noTakeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(raiseBetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
+                            .addComponent(noRaiseBetButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(makeMoveButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(takeCardButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(winningsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(bot1label, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(bot2label, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(174, 174, 174))))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lossesLabel)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(bot2label, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(bot1label, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(winningsLabel))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deckLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(64, 64, 64)
+                                .addComponent(makeMoveButton))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lastMoveInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(bankInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(secondCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(firstCardLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(thirdCardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(fourthCardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(fifthCardLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(noRaiseBetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(raiseBetButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(noTakeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(passButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(takeCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(15, Short.MAX_VALUE))))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void passButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passButtonActionPerformed
+        adapter.initLoseClosing(this, parent, "хотите выйти в меню или начать новую игру?\n Вам будет засчитан проигрыш.");
+    }//GEN-LAST:event_passButtonActionPerformed
+
+    private void noRaiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noRaiseBetButtonActionPerformed
+        lastMoveInfo.setText(game.noMakeMove());
+        game.changePhaseAndIncreaseIndex();
+        updateButtons();
+        adapter.FinishHandling(this);
+    }//GEN-LAST:event_noRaiseBetButtonActionPerformed
+
+    private void takeCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_takeCardButtonActionPerformed
+        lastMoveInfo.setText(game.makeMove());
+        updateAllPlayersImgs();
+        if (adapter.checkPointsHandling(game.checkPoints(), this)) {
+            game.changePhaseAndIncreaseIndex();
+            updateButtons();
+            updateBankInfo(this.bankInfoLabel, this.game);
+            adapter.FinishHandling(this);
+        }
+    }//GEN-LAST:event_takeCardButtonActionPerformed
+
+    private void noTakeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noTakeButtonActionPerformed
+        lastMoveInfo.setText(game.noMakeMove());
+        game.changePhaseAndIncreaseIndex();
+        updateButtons();
+        adapter.FinishHandling(this);
+    }//GEN-LAST:event_noTakeButtonActionPerformed
+
+    private void makeMoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeMoveButtonActionPerformed
+        System.out.println("фаза перед ходом соперника" + game.isBetOrTake());
+        lastMoveInfo.setText(game.makeMove());
+        updateAllPlayersImgs();
+        if (adapter.checkPointsHandling(game.checkPoints(), this)) {
+            game.changePhaseAndIncreaseIndex();
+            updateButtons();
+            updateBankInfo(this.bankInfoLabel, this.game);
+            adapter.FinishHandling(this);
+        }
+    }//GEN-LAST:event_makeMoveButtonActionPerformed
+
+    private void raiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raiseBetButtonActionPerformed
+        lastMoveInfo.setText(game.makeMove());
+        game.changePhaseAndIncreaseIndex();
+        updateButtons();
+        updateBankInfo(this.bankInfoLabel, this.game);
+        adapter.FinishHandling(this);
+    }//GEN-LAST:event_raiseBetButtonActionPerformed
+
     @Override
-    void startGame() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void startGame() {
+        game = new Game();
+        System.out.println("фаза " + game.isBetOrTake());
+        game.getPlayers().add(0, new User("A"));
+        game.getPlayers().add(1, new Bot("B"));
+        game.getPlayers().add(2, new Bot("C"));
+        loadMap();
+        int balance = parent.getBalanceForGame();
+        game.getPlayers().forEach(player -> player.setBalance(balance));
+        game.startGame();
+        updateAllPlayersImgs();
+        updateBankInfo(this.bankInfoLabel, this.game);
+        updateButtons();
+        updateStatistics(this);
+        checkOn21and22();
     }
-    @Override
-    public JLabel getLastMoveInfo() {
-        return null;
+
+    public void updateButtons() {
+        if (game.getIndexOfCurrentPlayer() != 0) {
+            this.makeMoveButton.setVisible(true);
+            this.noTakeButton.setVisible(false);
+            this.takeCardButton.setVisible(false);
+            this.noRaiseBetButton.setVisible(false);
+            this.raiseBetButton.setVisible(false);
+            this.passButton.setVisible(false);
+        } else {
+            if (this.game.isBetOrTake()) {
+                this.makeMoveButton.setVisible(false);
+                this.noTakeButton.setVisible(true);
+                if (game.getPlayers().get(0).getCards().size() <= 5) {
+                    this.takeCardButton.setVisible(true);
+                } else {
+                    this.takeCardButton.setVisible(false);
+                }
+                this.noRaiseBetButton.setVisible(false);
+                this.raiseBetButton.setVisible(false);
+                this.passButton.setVisible(true);
+            } else {
+                if (game.getPlayers().get(0).getCurrentBid() == game.getCurrentBid()) {
+                    this.noRaiseBetButton.setVisible(true);
+                } else {
+                    this.noRaiseBetButton.setVisible(false);
+                }
+                this.raiseBetButton.setVisible(true);
+                this.makeMoveButton.setVisible(false);
+                this.noTakeButton.setVisible(false);
+                this.takeCardButton.setVisible(false);
+                this.passButton.setVisible(true);
+            }
+        }
     }
-    @Override
-    JLabel getBankInfoLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public void loadMap() {
+        map.put(game.getPlayers().get(1), bot1label);
+        map.put(game.getPlayers().get(2), bot2label);
     }
 
     @Override
     public void updateAllPlayersImgs() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        ImageIcon deckImg = new ImageIcon(System.getProperty("user.dir") + "/imgSource/deck.jpg");
+        ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
+        deckLabel.setIcon(resizedImg);
+        game.getPlayers().forEach(player -> {
+            if (player instanceof User) {
+                updateImgsForUser(game.getPlayers().get(0),
+                        firstCardLabel,
+                        secondCardLabel,
+                        thirdCardLabel,
+                        fourthCardLabel,
+                        fifthCardLabel);
+            } else {
+                updateImgsForBot(player, map.get(player));
+            }
+        });
+//        updateImgsForUser(game.getPlayers().get(0),
+//                firstCardLabel,
+//                secondCardLabel,
+//                thirdCardLabel,
+//                fourthCardLabel,
+//                fifthCardLabel);
+//        updateImgsForBot(game.getPlayers().get(1), bot1label);
+//        updateImgsForBot(game.getPlayers().get(2), bot2label);
+
     }
 
     @Override
-    JLabel getLossesLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public JLabel getLossesLabel() {
+        return lossesLabel;
     }
 
     @Override
-    JLabel getWinningsLabel() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public JLabel getWinningsLabel() {
+        return winningsLabel;
     }
 
-    /**
-     * @param args the command line arguments
-     */
+    @Override
+    public JLabel getBankInfoLabel() {
+        return bankInfoLabel;
+    }
+
+    @Override
+    public JLabel getLastMoveInfo() {
+        return lastMoveInfo;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel bankInfoLabel;
+    private javax.swing.JLabel bot1label;
+    private javax.swing.JLabel bot2label;
+    private javax.swing.JLabel deckLabel;
+    private javax.swing.JLabel fifthCardLabel;
+    private javax.swing.JLabel firstCardLabel;
+    private javax.swing.JLabel fourthCardLabel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lastMoveInfo;
+    private javax.swing.JLabel lossesLabel;
+    private javax.swing.JButton makeMoveButton;
+    private javax.swing.JButton noRaiseBetButton;
+    private javax.swing.JButton noTakeButton;
+    private javax.swing.JButton passButton;
+    private javax.swing.JButton raiseBetButton;
+    private javax.swing.JLabel secondCardLabel;
+    private javax.swing.JButton takeCardButton;
+    private javax.swing.JLabel thirdCardLabel;
+    private javax.swing.JLabel winningsLabel;
     // End of variables declaration//GEN-END:variables
 }

@@ -296,6 +296,7 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         System.out.println("фаза " + game.isBetOrTake());
         game.getPlayers().add(0, new User("A"));
         game.getPlayers().add(1, new Bot("B"));
+        loadMap();
         int balance = parent.getBalanceForGame();
         game.getPlayers().forEach(player -> player.setBalance(balance));
         game.startGame();
@@ -303,7 +304,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         updateBankInfo(this.bankInfoLabel, this.game);
         updateButtons();
         updateStatistics(this);
-        loadMap();
         checkOn21and22();
     }
 
@@ -351,13 +351,18 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         ImageIcon deckImg = new ImageIcon(System.getProperty("user.dir") + "/imgSource/deck.jpg");
         ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
         deckLabel.setIcon(resizedImg);
-        updateImgsForUser(game.getPlayers().get(0),
-                firstCardLabel,
-                secondCardLabel,
-                thirdCardLabel,
-                fourthCardLabel,
-                fifthCardLabel);
-        updateImgsForBot(game.getPlayers().get(1), botLabel);
+        game.getPlayers().forEach(player -> {
+            if (player instanceof User) {
+                updateImgsForUser(game.getPlayers().get(0),
+                        firstCardLabel,
+                        secondCardLabel,
+                        thirdCardLabel,
+                        fourthCardLabel,
+                        fifthCardLabel);
+            } else {
+                updateImgsForBot(player, map.get(player));
+            }
+        });
     }
 
     @Override
