@@ -33,19 +33,25 @@ public interface UpdateVisualInfo {
             JLabel fifthCardLabel) {
         switch (user.getCards().size()) {
             case 2 -> {
+                firstCardLabel.setIcon(null);
                 secondCardLabel.setIcon(user.getCards().get(0).getSuit());
                 thirdCardLabel.setIcon(user.getCards().get(1).getSuit());
+                fourthCardLabel.setIcon(null);
+                fifthCardLabel.setIcon(null);
             }
             case 3 -> {
+                firstCardLabel.setIcon(null);
                 secondCardLabel.setIcon(user.getCards().get(0).getSuit());
                 thirdCardLabel.setIcon(user.getCards().get(1).getSuit());
                 fourthCardLabel.setIcon(user.getCards().get(2).getSuit());
+                fifthCardLabel.setIcon(null);
             }
             case 4 -> {
                 firstCardLabel.setIcon(user.getCards().get(0).getSuit());
                 secondCardLabel.setIcon(user.getCards().get(1).getSuit());
                 thirdCardLabel.setIcon(user.getCards().get(2).getSuit());
                 fourthCardLabel.setIcon(user.getCards().get(3).getSuit());
+                fifthCardLabel.setIcon(null);
             }
             case 5 -> {
                 firstCardLabel.setIcon(user.getCards().get(0).getSuit());
@@ -81,6 +87,7 @@ public interface UpdateVisualInfo {
             }
         }
     }
+
     default ImageIcon generateIconForLoser(String cardSuit) {
         return null;
     }

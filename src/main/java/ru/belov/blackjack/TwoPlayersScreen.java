@@ -13,7 +13,7 @@ import javax.swing.JLabel;
  *
  * @author Xiaomi
  */
-public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo {
+public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo {
 
     /**
      * Creates new form TwoPlayersGame
@@ -57,6 +57,7 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
         winningsLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setLocation(getLocation());
 
         secondCardLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -91,10 +92,10 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
         });
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Игрок 1 (Вы)");
+        jLabel1.setText("Игрок A (Вы)");
 
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Игрок 2");
+        jLabel2.setText("Игрок B");
 
         noTakeButton.setText("не брать карту");
         noTakeButton.addActionListener(new java.awt.event.ActionListener() {
@@ -164,12 +165,10 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(lossesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(winningsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE))
-                        .addGap(108, 108, 108)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(23, 23, 23)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(125, 125, 125)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(botLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -243,93 +242,76 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
     }// </editor-fold>//GEN-END:initComponents
 
     private void makeMoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeMoveButtonActionPerformed
+        System.out.println("фаза перед ходом соперника" + game.isBetOrTake());
         lastMoveInfo.setText(game.makeMove());
         updateAllPlayersImgs();
-        updateButtons();
-        updateBankInfo(this.bankInfoLabel, this.game);
+        if (adapter.checkPointsHandling(game.checkPoints(), this)) {
+            game.changePhaseAndIncreaseIndex();
+            System.out.println("хуй 1");
+            updateButtons();
+            updateBankInfo(this.bankInfoLabel, this.game);
+            adapter.FinishHandling(this);
+        }
     }//GEN-LAST:event_makeMoveButtonActionPerformed
 
     private void takeCardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_takeCardButtonActionPerformed
         lastMoveInfo.setText(game.makeMove());
         updateAllPlayersImgs();
-        updateButtons();
-        updateBankInfo(this.bankInfoLabel, this.game);
+        if (adapter.checkPointsHandling(game.checkPoints(), this)) {
+            game.changePhaseAndIncreaseIndex();
+            System.out.println("хуй 2");
+            updateButtons();
+            updateBankInfo(this.bankInfoLabel, this.game);
+            adapter.FinishHandling(this);
+        }
     }//GEN-LAST:event_takeCardButtonActionPerformed
 
     private void noTakeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noTakeButtonActionPerformed
         lastMoveInfo.setText(game.noMakeMove());
+        game.changePhaseAndIncreaseIndex();
+        System.out.println("хуй 3");
         updateButtons();
+        adapter.FinishHandling(this);
     }//GEN-LAST:event_noTakeButtonActionPerformed
 
     private void raiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raiseBetButtonActionPerformed
         lastMoveInfo.setText(game.makeMove());
+        game.changePhaseAndIncreaseIndex();
+        System.out.println("хуй 4");
         updateButtons();
         updateBankInfo(this.bankInfoLabel, this.game);
+        adapter.FinishHandling(this);
     }//GEN-LAST:event_raiseBetButtonActionPerformed
 
     private void noRaiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noRaiseBetButtonActionPerformed
         lastMoveInfo.setText(game.noMakeMove());
+        game.changePhaseAndIncreaseIndex();
+        System.out.println("хуй 5");
         updateButtons();
+        adapter.FinishHandling(this);
     }//GEN-LAST:event_noRaiseBetButtonActionPerformed
 
     private void passButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passButtonActionPerformed
-        MyWindowAdapter adapter = new MyWindowAdapter();
-        adapter.windowClosing(evt);
+        adapter.initLoseClosing(this, parent, "хотите выйти в меню или начать новую игру?\n Вам будет засчитан проигрыш.");
     }//GEN-LAST:event_passButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TwoPlayersScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TwoPlayersScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TwoPlayersScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TwoPlayersScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new TwoPlayersScreen().setVisible(true);
-//            }
-//        });
-    }
 
     @Override
     public void startGame() {
         game = new Game();
-        ImageIcon deckImg = new ImageIcon(System.getProperty("user.dir") + "/imgSource/deck.jpg");
-        ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
-        deckLabel.setIcon(resizedImg);
-        game.getPlayers().add(0, new User());
-        game.getPlayers().add(1, new Bot());
-        game.getPlayers().forEach(player -> player.setBalance(parent.getBalanceForGame()));
+        System.out.println("фаза " + game.isBetOrTake());
+        game.getPlayers().add(0, new User("A"));
+        game.getPlayers().add(1, new Bot("B"));
+        int balance = parent.getBalanceForGame();
+        game.getPlayers().forEach(player -> player.setBalance(balance));
         game.startGame();
         updateAllPlayersImgs();
         updateBankInfo(this.bankInfoLabel, this.game);
         updateButtons();
         updateStatistics(this);
+        loadMap();
     }
 
-    private void updateButtons() {
+    public void updateButtons() {
         if (game.getIndexOfCurrentPlayer() != 0) {
             this.makeMoveButton.setVisible(true);
             this.noTakeButton.setVisible(false);
@@ -341,12 +323,20 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
             if (this.game.isBetOrTake()) {
                 this.makeMoveButton.setVisible(false);
                 this.noTakeButton.setVisible(true);
-                this.takeCardButton.setVisible(true);
+                if (game.getPlayers().get(0).getCards().size() <= 5) {
+                    this.takeCardButton.setVisible(true);
+                } else {
+                    this.takeCardButton.setVisible(false);
+                }
                 this.noRaiseBetButton.setVisible(false);
                 this.raiseBetButton.setVisible(false);
                 this.passButton.setVisible(true);
             } else {
-                this.noRaiseBetButton.setVisible(true);
+                if (game.getPlayers().get(0).getCurrentBid() == game.getCurrentBid()) {
+                    this.noRaiseBetButton.setVisible(true);
+                } else {
+                    this.noRaiseBetButton.setVisible(false);
+                }
                 this.raiseBetButton.setVisible(true);
                 this.makeMoveButton.setVisible(false);
                 this.noTakeButton.setVisible(false);
@@ -356,7 +346,15 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
         }
     }
 
+    public void loadMap() {
+        map.put(game.getPlayers().get(1), botLabel);
+    }
+
+    @Override
     public void updateAllPlayersImgs() {
+        ImageIcon deckImg = new ImageIcon(System.getProperty("user.dir") + "/imgSource/deck.jpg");
+        ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH));
+        deckLabel.setIcon(resizedImg);
         updateImgsForUser(game.getPlayers().get(0),
                 firstCardLabel,
                 secondCardLabel,
@@ -366,19 +364,26 @@ public class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo 
         updateImgsForBot(game.getPlayers().get(1), botLabel);
     }
 
-  
-
+    @Override
     public JLabel getLossesLabel() {
         return lossesLabel;
     }
 
+    @Override
     public JLabel getWinningsLabel() {
         return winningsLabel;
     }
 
+    @Override
     public JLabel getBankInfoLabel() {
         return bankInfoLabel;
     }
+
+    @Override
+    public JLabel getLastMoveInfo() {
+        return lastMoveInfo;
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bankInfoLabel;

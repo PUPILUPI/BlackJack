@@ -1,5 +1,7 @@
 package ru.belov.blackjack;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -290,6 +292,7 @@ public class StartScreen extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setLocation(new java.awt.Point(0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -414,21 +417,35 @@ public class StartScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
         switch (Integer.parseInt((String) playersComboBox.getSelectedItem())) {
             case 1 -> {
                 PlayersScreen screen = new TwoPlayersScreen(this);
+                int x = (screenSize.width - screen.getWidth()) / 2;
+                int y = (screenSize.height - screen.getHeight()) / 2;
+                screen.setLocation(x, y);
                 screen.setVisible(true);
             }
             case 2 -> {
                 PlayersScreen screen = new ThreePlayersScreen(this);
+                int x = (screenSize.width - screen.getWidth()) / 2;
+                int y = (screenSize.height - screen.getHeight()) / 2;
+                screen.setLocation(x, y);
                 screen.setVisible(true);
             }
             case 3 -> {
                 PlayersScreen screen = new FourPlayersScreen(this);
+                int x = (screenSize.width - screen.getWidth()) / 2;
+                int y = (screenSize.height - screen.getHeight()) / 2;
+                screen.setLocation(x, y);
                 screen.setVisible(true);
             }
             case 4 -> {
                 PlayersScreen screen = new FivePlayersScreen(this);
+                int x = (screenSize.width - screen.getWidth()) / 2;
+                int y = (screenSize.height - screen.getHeight()) / 2;
+                screen.setLocation(x, y);
                 screen.setVisible(true);
             }
             default ->
@@ -436,48 +453,18 @@ public class StartScreen extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_startGameButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(StartScreen.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StartScreen().setVisible(true);
-            }
-        });
-    }
 
     public int getBalanceForGame() {
+//        System.out.println("банк перед началом игры до взятия денег: " + globalBank);
         if (globalBank >= 100) {
             globalBank -= 100;
+//            System.out.println("банк после взятия денег и начала: " + globalBank);
             return 100;
         } else {
             int balanceForGame = globalBank;
             globalBank = 0;
+//            System.out.println("банк после взятия денег и начала: " + globalBank);
             return balanceForGame;
         }
     }

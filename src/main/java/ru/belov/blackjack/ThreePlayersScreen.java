@@ -50,7 +50,10 @@ public class ThreePlayersScreen extends PlayersScreen {
     void startGame() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    @Override
+    public JLabel getLastMoveInfo() {
+        return null;
+    }
     @Override
     JLabel getBankInfoLabel() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody

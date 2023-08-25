@@ -4,18 +4,22 @@
  */
 package ru.belov.blackjack;
 
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JLabel;
+import ru.belov.blackjack.players.Player;
 
 /**
  *
  * @author Xiaomi
  */
 public abstract class PlayersScreen extends javax.swing.JFrame implements UpdateVisualInfo {
-
+    protected MyWindowAdapter adapter = new MyWindowAdapter();
     protected final StartScreen parent;
-    protected Game game;
+    protected Game game = new Game();
     protected int winnings = 0;
     protected int losses = 0;
+    protected Map<Player, JLabel> map = new HashMap<>();
 
     public PlayersScreen(StartScreen parent) {
         this.parent = parent;
@@ -25,6 +29,10 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
 
     public Game getGame() {
         return game;
+    }
+
+    public Map<Player, JLabel> getMap() {
+        return map;
     }
 
     public void setGame(Game game) {
@@ -84,6 +92,8 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
     abstract JLabel getLossesLabel();
 
     abstract JLabel getWinningsLabel();
+
+    abstract JLabel getLastMoveInfo();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

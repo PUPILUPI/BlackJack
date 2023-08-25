@@ -15,6 +15,10 @@ import ru.belov.blackjack.Game;
  */
 public class User extends Player {
 
+    public User(String name) {
+        super(name);
+    }
+
     @Override
     public boolean takeCard(List<CardWithSuit> deckCards) {
         CardWithSuit card = deckCards.get(0);
