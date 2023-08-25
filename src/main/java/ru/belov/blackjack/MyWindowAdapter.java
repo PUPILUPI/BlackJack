@@ -82,7 +82,7 @@ public class MyWindowAdapter extends WindowAdapter {
         closingFrame.dispose();
     }
 
-    private void initWinClosing(PlayersScreen closingFrame, StartScreen parent, String message) {
+    public void initWinClosing(PlayersScreen closingFrame, StartScreen parent, String message) {
         Object[] options = {"Выйти", "Начать новую игру"};
         int choice = JOptionPane.showOptionDialog(closingFrame, message, null, JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (choice == JOptionPane.YES_OPTION) {

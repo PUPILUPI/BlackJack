@@ -26,21 +26,18 @@ public class Game {
     private int circlesWithoutChanges = 0;
 
     public void startGame() {
-        players.forEach(player -> {
+        for(int i =0; i<players.size(); i++) {
+            Player player = players.get(i);
             player.takeCard(deck.getCards());
             player.takeCard(deck.getCards());
             player.placeBet(this);
-        });
+        }
         Random random = new Random();
         indexOfCurrentPlayer = random.nextInt(players.size());
         currentBid = players.get(indexOfCurrentPlayer).getCurrentBid();
     }
 
     public String makeMove() {
-//        if (numberOfMoves > 2){
-//                    players.get(1).setTotalPoints(21);
-//        }
-
         int index = this.indexOfCurrentPlayer;
         Player player = this.players.get(index);
         if (this.betOrTake) {

@@ -247,7 +247,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         updateAllPlayersImgs();
         if (adapter.checkPointsHandling(game.checkPoints(), this)) {
             game.changePhaseAndIncreaseIndex();
-            System.out.println("хуй 1");
             updateButtons();
             updateBankInfo(this.bankInfoLabel, this.game);
             adapter.FinishHandling(this);
@@ -259,7 +258,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         updateAllPlayersImgs();
         if (adapter.checkPointsHandling(game.checkPoints(), this)) {
             game.changePhaseAndIncreaseIndex();
-            System.out.println("хуй 2");
             updateButtons();
             updateBankInfo(this.bankInfoLabel, this.game);
             adapter.FinishHandling(this);
@@ -269,7 +267,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     private void noTakeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noTakeButtonActionPerformed
         lastMoveInfo.setText(game.noMakeMove());
         game.changePhaseAndIncreaseIndex();
-        System.out.println("хуй 3");
         updateButtons();
         adapter.FinishHandling(this);
     }//GEN-LAST:event_noTakeButtonActionPerformed
@@ -277,7 +274,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     private void raiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_raiseBetButtonActionPerformed
         lastMoveInfo.setText(game.makeMove());
         game.changePhaseAndIncreaseIndex();
-        System.out.println("хуй 4");
         updateButtons();
         updateBankInfo(this.bankInfoLabel, this.game);
         adapter.FinishHandling(this);
@@ -286,7 +282,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     private void noRaiseBetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noRaiseBetButtonActionPerformed
         lastMoveInfo.setText(game.noMakeMove());
         game.changePhaseAndIncreaseIndex();
-        System.out.println("хуй 5");
         updateButtons();
         adapter.FinishHandling(this);
     }//GEN-LAST:event_noRaiseBetButtonActionPerformed
@@ -309,6 +304,7 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
         updateButtons();
         updateStatistics(this);
         loadMap();
+        checkOn21and22();
     }
 
     public void updateButtons() {

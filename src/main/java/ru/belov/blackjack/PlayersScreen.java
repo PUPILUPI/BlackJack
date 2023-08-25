@@ -14,12 +14,27 @@ import ru.belov.blackjack.players.Player;
  * @author Xiaomi
  */
 public abstract class PlayersScreen extends javax.swing.JFrame implements UpdateVisualInfo {
+
     protected MyWindowAdapter adapter = new MyWindowAdapter();
     protected final StartScreen parent;
     protected Game game = new Game();
     protected int winnings = 0;
     protected int losses = 0;
     protected Map<Player, JLabel> map = new HashMap<>();
+
+    public void checkOn21and22() {
+        for (int i = 0; i < game.getPlayers().size(); i++) {
+            Player player = game.getPlayers().get(i);
+            if (player.getTotalPoints() == 21 || player.getTotalPoints() == 22) {
+                MyWindowAdapter adapter = new MyWindowAdapter();
+                if (i == 0) {
+                    adapter.initWinClosing(this, parent, "вы сходу выиграли эту игру! \nНачать новую или выйти в меню?");
+                } else {
+                    adapter.initLoseClosing(this, parent, "вы сходу  проиграли игру, так как игрок " + player.getName() + " набрал " + player.getTotalPoints() + " очка!\nНачать новую или выйти в меню?");
+                }
+            }
+        }
+    }
 
     public PlayersScreen(StartScreen parent) {
         this.parent = parent;
