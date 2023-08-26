@@ -46,7 +46,16 @@ public class Bot extends Player {
 
     @Override
     public boolean placeBet(Game game) {
-        boolean b = (this.totalPoints > 18 && this.currentBid < 30 && game.getNumberOfMoves() > 0 && this.balance > 0);
+        Random random = new Random();
+        double probability;
+        if (this.totalPoints < 14) {
+            probability = 0.25;
+        } else if (this.totalPoints < 17) {
+            probability = 0.5;
+        } else {
+            probability = 0.7;
+        }
+        boolean b = (this.totalPoints > 18 && this.currentBid < 30 && game.getNumberOfMoves() > 0 && this.balance > 0 && random.nextDouble() < probability);
         if (b) {
             game.setNumberOfMoves(0);
         }

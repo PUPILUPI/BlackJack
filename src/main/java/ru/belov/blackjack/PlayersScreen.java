@@ -21,8 +21,9 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
     protected int winnings = 0;
     protected int losses = 0;
     protected Map<Player, JLabel> map = new HashMap<>();
+    
 
-    public void checkOn21and22() {
+    protected void checkOn21and22() {
         for (int i = 0; i < game.getPlayers().size(); i++) {
             Player player = game.getPlayers().get(i);
             if (player.getTotalPoints() == 21 || player.getTotalPoints() == 22) {

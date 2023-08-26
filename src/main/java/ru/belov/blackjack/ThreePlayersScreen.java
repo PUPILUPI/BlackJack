@@ -48,8 +48,8 @@ public class ThreePlayersScreen extends PlayersScreen {
         deckLabel = new javax.swing.JLabel();
         bankInfoLabel = new javax.swing.JLabel();
         lastMoveInfo = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        bot1NameLabel = new javax.swing.JLabel();
+        bot2NameLabel = new javax.swing.JLabel();
         bot1label = new javax.swing.JLabel();
         bot2label = new javax.swing.JLabel();
         firstCardLabel = new javax.swing.JLabel();
@@ -114,11 +114,11 @@ public class ThreePlayersScreen extends PlayersScreen {
         lastMoveInfo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lastMoveInfo.setText("Здесь будет информация о последнем ходе");
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Игрок B");
+        bot1NameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bot1NameLabel.setText("Игрок B");
 
-        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Игрок C");
+        bot2NameLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        bot2NameLabel.setText("Игрок C");
 
         bot1label.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
@@ -170,9 +170,9 @@ public class ThreePlayersScreen extends PlayersScreen {
                                     .addComponent(lastMoveInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(32, 32, 32)
-                                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bot1NameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(73, 73, 73)
-                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(bot2NameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 28, Short.MAX_VALUE)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(noTakeButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -194,8 +194,8 @@ public class ThreePlayersScreen extends PlayersScreen {
                 .addGap(9, 9, 9)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lossesLabel)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3))
+                    .addComponent(bot1NameLabel)
+                    .addComponent(bot2NameLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -205,11 +205,11 @@ public class ThreePlayersScreen extends PlayersScreen {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(deckLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(64, 64, 64)
-                                .addComponent(makeMoveButton))))
+                                .addComponent(makeMoveButton))
+                            .addComponent(deckLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lastMoveInfo, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -239,7 +239,7 @@ public class ThreePlayersScreen extends PlayersScreen {
                             .addComponent(jLabel1)
                             .addComponent(passButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(takeCardButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(15, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -254,7 +254,7 @@ public class ThreePlayersScreen extends PlayersScreen {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 446, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -385,15 +385,6 @@ public class ThreePlayersScreen extends PlayersScreen {
                 updateImgsForBot(player, map.get(player));
             }
         });
-//        updateImgsForUser(game.getPlayers().get(0),
-//                firstCardLabel,
-//                secondCardLabel,
-//                thirdCardLabel,
-//                fourthCardLabel,
-//                fifthCardLabel);
-//        updateImgsForBot(game.getPlayers().get(1), bot1label);
-//        updateImgsForBot(game.getPlayers().get(2), bot2label);
-
     }
 
     @Override
@@ -418,15 +409,15 @@ public class ThreePlayersScreen extends PlayersScreen {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bankInfoLabel;
+    private javax.swing.JLabel bot1NameLabel;
     private javax.swing.JLabel bot1label;
+    private javax.swing.JLabel bot2NameLabel;
     private javax.swing.JLabel bot2label;
     private javax.swing.JLabel deckLabel;
     private javax.swing.JLabel fifthCardLabel;
     private javax.swing.JLabel firstCardLabel;
     private javax.swing.JLabel fourthCardLabel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lastMoveInfo;
     private javax.swing.JLabel lossesLabel;

@@ -54,6 +54,7 @@ public class MyWindowAdapter extends WindowAdapter {
                     ImageIcon resizedImg = new ImageIcon(deckImg.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
                     screen.getMap().get(player).setIcon(resizedImg);
                     game.getPlayers().remove(game.getIndexOfCurrentPlayer());
+                    game.setIndexOfCurrentPlayer(game.getIndexOfCurrentPlayer() - 1);
                     if (game.getPlayers().size() <= 1) {
                         initWinClosing(screen, screen.getParent(), "вы остались еднственным игроком и выиграли!");
                         return false;

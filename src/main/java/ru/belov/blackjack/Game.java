@@ -116,6 +116,10 @@ public class Game {
         return players.get(indexOfCurrentPlayer).checkPoints();
     }
 
+    public void setIndexOfCurrentPlayer(int indexOfCurrentPlayer) {
+        this.indexOfCurrentPlayer = indexOfCurrentPlayer;
+    }
+
     public int getNumberOfMoves() {
         return numberOfMoves;
     }
