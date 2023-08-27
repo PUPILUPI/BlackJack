@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.cards;
 
 /**
  *
@@ -34,12 +34,17 @@ public enum Nuclide {
     private final String name;
     private final double emitting;
 
-   private Nuclide(String name, double emitting) {
+    private Nuclide(String name, double emitting) {
         this.name = name;
         this.emitting = emitting;
     }
+
     public String getName() {
         return this.name;
+    }
+
+    public double getEmitting() {
+        return emitting;
     }
 
 }

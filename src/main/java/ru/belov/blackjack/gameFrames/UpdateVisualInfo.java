@@ -2,11 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.gameFrames;
 
+import ru.belov.blackjack.gameFrames.PlayersScreen;
 import ru.belov.blackjack.players.Player;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Game;
 
 /**
  *

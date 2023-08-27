@@ -6,8 +6,8 @@ package ru.belov.blackjack.players;
 
 import java.util.ArrayList;
 import java.util.List;
-import ru.belov.blackjack.CardWithSuit;
-import ru.belov.blackjack.Game;
+import ru.belov.blackjack.cards.CardWithSuit;
+import ru.belov.blackjack.cards.Game;
 
 public abstract class Player {
 

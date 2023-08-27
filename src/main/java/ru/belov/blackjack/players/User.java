@@ -6,8 +6,8 @@ package ru.belov.blackjack.players;
 
 import java.util.List;
 import javax.swing.JOptionPane;
-import ru.belov.blackjack.CardWithSuit;
-import ru.belov.blackjack.Game;
+import ru.belov.blackjack.cards.CardWithSuit;
+import ru.belov.blackjack.cards.Game;
 
 /**
  *

@@ -2,11 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.gameFrames;
 
+import ru.belov.blackjack.StartScreen;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Deck;
+import ru.belov.blackjack.cards.Detector;
+import ru.belov.blackjack.cards.Game;
+import ru.belov.blackjack.players.Bot;
 import ru.belov.blackjack.players.Player;
 
 /**
@@ -20,8 +25,10 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
     protected Game game = new Game();
     protected int winnings = 0;
     protected int losses = 0;
+    protected Detector detector;
     protected Map<Player, JLabel> map = new HashMap<>();
-    
+    protected Map<JLabel, Player> mapLabelToBot = new HashMap<>();
+    protected Map<JLabel, Game> mapLabelToGame = new HashMap<>();
 
     protected void checkOn21and22() {
         for (int i = 0; i < game.getPlayers().size(); i++) {
@@ -101,15 +108,15 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    abstract void startGame();
+    public abstract void startGame();
 
-    abstract JLabel getBankInfoLabel();
+    public abstract JLabel getBankInfoLabel();
 
-    abstract JLabel getLossesLabel();
+    public abstract JLabel getLossesLabel();
 
-    abstract JLabel getWinningsLabel();
+    public abstract JLabel getWinningsLabel();
 
-    abstract JLabel getLastMoveInfo();
+    public abstract JLabel getLastMoveInfo();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
 }

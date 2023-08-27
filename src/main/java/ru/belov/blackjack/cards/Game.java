@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.cards;
 
+import ru.belov.blackjack.cards.Deck;
 import ru.belov.blackjack.players.Player;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,17 +73,11 @@ public class Game {
     }
 
     public void changePhaseAndIncreaseIndex() {
-
-//        System.out.println("ходы без изменений " + movesWithoutChanges);
         this.numberOfMoves++;
-        System.out.println("количество ходов после нажатия на кнопку " + numberOfMoves);
-        System.out.println("размер списка игроков " + players.size());
         if (numberOfMoves % players.size() == 0) {
             if (movesWithoutChanges == players.size()) {
-//                System.out.println("круги без изменений " + circlesWithoutChanges);
                 movesWithoutChanges = 0;
                 circlesWithoutChanges++;
-//                System.out.println("круги без изменений после увеличения" + circlesWithoutChanges);
             } else {
                 movesWithoutChanges = 0;
             }

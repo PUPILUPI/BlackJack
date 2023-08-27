@@ -2,10 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.gameFrames;
 
+import ru.belov.blackjack.StartScreen;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Detector;
+import ru.belov.blackjack.cards.DetectorForDeck;
+import ru.belov.blackjack.cards.Game;
 import ru.belov.blackjack.players.Bot;
 import ru.belov.blackjack.players.User;
 
@@ -337,12 +341,16 @@ public class FourPlayersScreen extends PlayersScreen {
     @Override
     public void startGame() {
         game = new Game();
-        System.out.println("фаза " + game.isBetOrTake());
         game.getPlayers().add(0, new User("A"));
         game.getPlayers().add(1, new Bot("B"));
         game.getPlayers().add(2, new Bot("C"));
         game.getPlayers().add(3, new Bot("D"));
         loadMap();
+        detector = new Detector(mapLabelToBot, mapLabelToGame);
+        bot1Label.addMouseListener(detector);
+        bot2Label.addMouseListener(detector);
+        bot3Label.addMouseListener(detector);
+        deckLabel.addMouseListener(new DetectorForDeck(mapLabelToBot, mapLabelToGame));
         int balance = parent.getBalanceForGame();
         game.getPlayers().forEach(player -> player.setBalance(balance));
         game.startGame();
@@ -389,9 +397,13 @@ public class FourPlayersScreen extends PlayersScreen {
     }
 
     public void loadMap() {
+        mapLabelToGame.put(deckLabel, game);
         map.put(game.getPlayers().get(1), bot1Label);
         map.put(game.getPlayers().get(2), bot2Label);
         map.put(game.getPlayers().get(3), bot3Label);
+        mapLabelToBot.put(bot1Label, game.getPlayers().get(1));
+        mapLabelToBot.put(bot2Label, game.getPlayers().get(2));
+        mapLabelToBot.put(bot3Label, game.getPlayers().get(3));
     }
 
     @Override

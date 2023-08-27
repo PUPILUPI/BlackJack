@@ -2,18 +2,22 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.gameFrames;
 
+import ru.belov.blackjack.StartScreen;
 import ru.belov.blackjack.players.User;
 import ru.belov.blackjack.players.Bot;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Detector;
+import ru.belov.blackjack.cards.DetectorForDeck;
+import ru.belov.blackjack.cards.Game;
 
 /**
  *
  * @author Xiaomi
  */
-public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisualInfo {
+public final class TwoPlayersScreen extends PlayersScreen {
 
     /**
      * Creates new form TwoPlayersGame
@@ -242,7 +246,6 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     }// </editor-fold>//GEN-END:initComponents
 
     private void makeMoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeMoveButtonActionPerformed
-        System.out.println("фаза перед ходом соперника" + game.isBetOrTake());
         lastMoveInfo.setText(game.makeMove());
         updateAllPlayersImgs();
         if (adapter.checkPointsHandling(game.checkPoints(), this)) {
@@ -293,10 +296,12 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     @Override
     public void startGame() {
         game = new Game();
-        System.out.println("фаза " + game.isBetOrTake());
         game.getPlayers().add(0, new User("A"));
         game.getPlayers().add(1, new Bot("B"));
         loadMap();
+        detector = new Detector(mapLabelToBot, mapLabelToGame);
+        botLabel.addMouseListener(detector);
+        deckLabel.addMouseListener(new DetectorForDeck(mapLabelToBot, mapLabelToGame));
         int balance = parent.getBalanceForGame();
         game.getPlayers().forEach(player -> player.setBalance(balance));
         game.startGame();
@@ -343,7 +348,9 @@ public final class TwoPlayersScreen extends PlayersScreen implements UpdateVisua
     }
 
     public void loadMap() {
+        mapLabelToGame.put(deckLabel, game);
         map.put(game.getPlayers().get(1), botLabel);
+        mapLabelToBot.put(botLabel, game.getPlayers().get(1));
     }
 
     @Override

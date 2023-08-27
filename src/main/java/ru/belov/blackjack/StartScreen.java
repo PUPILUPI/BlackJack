@@ -1,16 +1,31 @@
 package ru.belov.blackjack;
 
+import ru.belov.blackjack.cards.Card;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import ru.belov.blackjack.cards.Nuclide;
+import ru.belov.blackjack.gameFrames.FivePlayersScreen;
+import ru.belov.blackjack.gameFrames.FourPlayersScreen;
+import ru.belov.blackjack.gameFrames.PlayersScreen;
+import ru.belov.blackjack.gameFrames.ThreePlayersScreen;
+import ru.belov.blackjack.gameFrames.TwoPlayersScreen;
+import ru.belov.blackjack.readers.ExcelReader;
 
 /**
  *
@@ -23,6 +38,15 @@ public class StartScreen extends javax.swing.JFrame {
     private int globalBank = 100;
     private List<JComboBox<String>> comboBoxs;
     private Map<JComboBox<String>, String> chosenNuclides;
+
+    public static void main(String[] args) {
+        StartScreen screen = new StartScreen();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - screen.getWidth()) / 2;
+        int y = (screenSize.height - screen.getHeight()) / 2;
+        screen.setLocation(x, y);
+        screen.setVisible(true);
+    }
 
     public void setGlobalWinnings(int globalWinnings) {
         this.globalWinnings = globalWinnings;
@@ -60,14 +84,35 @@ public class StartScreen extends javax.swing.JFrame {
      * Creates new form StartScreen
      */
     public StartScreen() {
-        initComponents();
-        ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "/imgSource/atom.png");
-        ImageIcon img2 = new ImageIcon(System.getProperty("user.dir") + "/imgSource/startScreenCards.png");
-        ImageIcon resizedImg = new ImageIcon(img.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
-        ImageIcon resizedImg2 = new ImageIcon(img2.getImage().getScaledInstance(250, 150, java.awt.Image.SCALE_SMOOTH));
-        nameOfGame.setIcon(resizedImg);
-        picture.setIcon(resizedImg2);
-        updateStatistics();
+        try {
+            initComponents();
+            ImageIcon img = new ImageIcon(System.getProperty("user.dir") + "/imgSource/atom.png");
+            ImageIcon img2 = new ImageIcon(System.getProperty("user.dir") + "/imgSource/startScreenCards.png");
+            ImageIcon resizedImg = new ImageIcon(img.getImage().getScaledInstance(40, 40, java.awt.Image.SCALE_SMOOTH));
+            ImageIcon resizedImg2 = new ImageIcon(img2.getImage().getScaledInstance(250, 150, java.awt.Image.SCALE_SMOOTH));
+            nameOfGame.setIcon(resizedImg);
+            picture.setIcon(resizedImg2);
+            ExcelReader reader = new ExcelReader();
+            int[] info = reader.readStartInfo();
+            globalWinnings = info[0];
+            globalLosses = info[1];
+            globalBank = info[2];
+            updateStatistics();
+            this.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    try {
+                        // Обновляем файл Excel
+                        ExcelReader reader = new ExcelReader();
+                        reader.saveStatistics(globalWinnings, globalLosses, globalBank);
+                        System.out.println("сохранил");
+                        System.exit(0);
+                    } catch (IOException | InvalidFormatException ex) {}
+                }
+            });
+        } catch (IOException | InvalidFormatException ex) {
+            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -291,7 +336,7 @@ public class StartScreen extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -452,8 +497,6 @@ public class StartScreen extends javax.swing.JFrame {
                 throw new AssertionError();
         }
     }//GEN-LAST:event_startGameButtonActionPerformed
-
-
 
     public int getBalanceForGame() {
 //        System.out.println("банк перед началом игры до взятия денег: " + globalBank);

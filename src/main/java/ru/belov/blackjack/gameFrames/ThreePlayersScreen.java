@@ -2,10 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-package ru.belov.blackjack;
+package ru.belov.blackjack.gameFrames;
 
+import ru.belov.blackjack.StartScreen;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Detector;
+import ru.belov.blackjack.cards.DetectorForDeck;
+import ru.belov.blackjack.cards.Game;
 import ru.belov.blackjack.players.Bot;
 import ru.belov.blackjack.players.User;
 
@@ -291,7 +295,6 @@ public class ThreePlayersScreen extends PlayersScreen {
     }//GEN-LAST:event_noTakeButtonActionPerformed
 
     private void makeMoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_makeMoveButtonActionPerformed
-        System.out.println("фаза перед ходом соперника" + game.isBetOrTake());
         lastMoveInfo.setText(game.makeMove());
         updateAllPlayersImgs();
         if (adapter.checkPointsHandling(game.checkPoints(), this)) {
@@ -313,11 +316,14 @@ public class ThreePlayersScreen extends PlayersScreen {
     @Override
     public void startGame() {
         game = new Game();
-        System.out.println("фаза " + game.isBetOrTake());
         game.getPlayers().add(0, new User("A"));
         game.getPlayers().add(1, new Bot("B"));
         game.getPlayers().add(2, new Bot("C"));
         loadMap();
+        detector = new Detector(mapLabelToBot, mapLabelToGame);
+        bot1label.addMouseListener(detector);
+        bot2label.addMouseListener(detector);
+        deckLabel.addMouseListener(new DetectorForDeck(mapLabelToBot, mapLabelToGame));
         int balance = parent.getBalanceForGame();
         game.getPlayers().forEach(player -> player.setBalance(balance));
         game.startGame();
@@ -364,8 +370,11 @@ public class ThreePlayersScreen extends PlayersScreen {
     }
 
     public void loadMap() {
+        mapLabelToGame.put(deckLabel, game);
         map.put(game.getPlayers().get(1), bot1label);
         map.put(game.getPlayers().get(2), bot2label);
+        mapLabelToBot.put(bot1label, game.getPlayers().get(1));
+        mapLabelToBot.put(bot2label, game.getPlayers().get(2));
     }
 
     @Override

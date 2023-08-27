@@ -6,8 +6,8 @@ package ru.belov.blackjack.players;
 
 import java.util.List;
 import java.util.Random;
-import ru.belov.blackjack.CardWithSuit;
-import ru.belov.blackjack.Game;
+import ru.belov.blackjack.cards.CardWithSuit;
+import ru.belov.blackjack.cards.Game;
 
 /**
  *
@@ -33,12 +33,10 @@ public class Bot extends Player {
             probability = 0;
         }
         if (random.nextDouble() < probability) {
-            System.out.println("очки до взятия карты: " + totalPoints);
             CardWithSuit card = deckCards.get(0);
             this.cards.add(card);
             this.totalPoints += card.getCard().getCardValue();
             deckCards.remove(0);
-            System.out.println("очки после зятия карты: " + totalPoints);
             return true;
         }
         return false;
