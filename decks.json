@@ -1,0 +1,166 @@
+[
+  {
+    "creationDate": "Aug 28, 2023, 3:48:04 PM",
+    "list": [
+      {
+        "card": "SIX",
+        "nuclide": "NA"
+      },
+      {
+        "card": "SEVEN",
+        "nuclide": "CS"
+      },
+      {
+        "card": "EIGHT",
+        "nuclide": "MN"
+      },
+      {
+        "card": "NINE",
+        "nuclide": "CO"
+      },
+      {
+        "card": "TEN",
+        "nuclide": "ZN"
+      },
+      {
+        "card": "JACK",
+        "nuclide": "Y"
+      },
+      {
+        "card": "QUEEN",
+        "nuclide": "CD"
+      },
+      {
+        "card": "KING",
+        "nuclide": "SN"
+      },
+      {
+        "card": "ACE",
+        "nuclide": "BA"
+      }
+    ]
+  },
+  {
+    "creationDate": "Aug 28, 2023, 3:52:56 PM",
+    "list": [
+      {
+        "card": "SIX",
+        "nuclide": "NA"
+      },
+      {
+        "card": "SEVEN",
+        "nuclide": "TI"
+      },
+      {
+        "card": "EIGHT",
+        "nuclide": "CS_HEAVY"
+      },
+      {
+        "card": "NINE",
+        "nuclide": "CO"
+      },
+      {
+        "card": "TEN",
+        "nuclide": "ZN"
+      },
+      {
+        "card": "JACK",
+        "nuclide": "Y"
+      },
+      {
+        "card": "QUEEN",
+        "nuclide": "CD"
+      },
+      {
+        "card": "KING",
+        "nuclide": "SN"
+      },
+      {
+        "card": "ACE",
+        "nuclide": "BA"
+      }
+    ]
+  },
+  {
+    "creationDate": "Aug 28, 2023, 3:54:05 PM",
+    "list": [
+      {
+        "card": "SIX",
+        "nuclide": "NA"
+      },
+      {
+        "card": "SEVEN",
+        "nuclide": "TI"
+      },
+      {
+        "card": "EIGHT",
+        "nuclide": "CO_HEAVY"
+      },
+      {
+        "card": "NINE",
+        "nuclide": "CO"
+      },
+      {
+        "card": "TEN",
+        "nuclide": "ZN"
+      },
+      {
+        "card": "JACK",
+        "nuclide": "Y"
+      },
+      {
+        "card": "QUEEN",
+        "nuclide": "CD"
+      },
+      {
+        "card": "KING",
+        "nuclide": "SN"
+      },
+      {
+        "card": "ACE",
+        "nuclide": "BA"
+      }
+    ]
+  },
+  {
+    "creationDate": "Aug 28, 2023, 7:17:11 PM",
+    "list": [
+      {
+        "card": "SIX",
+        "nuclide": "AM_HEAVY"
+      },
+      {
+        "card": "SEVEN",
+        "nuclide": "TI"
+      },
+      {
+        "card": "EIGHT",
+        "nuclide": "MN"
+      },
+      {
+        "card": "NINE",
+        "nuclide": "CO"
+      },
+      {
+        "card": "TEN",
+        "nuclide": "ZN"
+      },
+      {
+        "card": "JACK",
+        "nuclide": "Y"
+      },
+      {
+        "card": "QUEEN",
+        "nuclide": "CD"
+      },
+      {
+        "card": "KING",
+        "nuclide": "SN"
+      },
+      {
+        "card": "ACE",
+        "nuclide": "BA"
+      }
+    ]
+  }
+]

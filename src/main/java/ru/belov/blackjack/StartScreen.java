@@ -1,5 +1,8 @@
 package ru.belov.blackjack;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import ru.belov.blackjack.cards.Card;
 
 import java.awt.Dimension;
@@ -7,8 +10,12 @@ import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +26,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import ru.belov.blackjack.cards.CardForJson;
+import ru.belov.blackjack.cards.DeckForJson;
 import ru.belov.blackjack.cards.Nuclide;
 import ru.belov.blackjack.gameFrames.FivePlayersScreen;
 import ru.belov.blackjack.gameFrames.FourPlayersScreen;
@@ -38,6 +47,7 @@ public class StartScreen extends javax.swing.JFrame {
     private int globalBank = 100;
     private List<JComboBox<String>> comboBoxs;
     private Map<JComboBox<String>, String> chosenNuclides;
+    private List<DeckForJson> decks = new ArrayList<>();
 
     public static void main(String[] args) {
         StartScreen screen = new StartScreen();
@@ -92,25 +102,31 @@ public class StartScreen extends javax.swing.JFrame {
             ImageIcon resizedImg2 = new ImageIcon(img2.getImage().getScaledInstance(250, 150, java.awt.Image.SCALE_SMOOTH));
             nameOfGame.setIcon(resizedImg);
             picture.setIcon(resizedImg2);
-            ExcelReader reader = new ExcelReader();
-            int[] info = reader.readStartInfo();
+            ExcelReader excelReader = new ExcelReader();
+            int[] info = excelReader.readStartInfo();
             globalWinnings = info[0];
             globalLosses = info[1];
             globalBank = info[2];
             updateStatistics();
+            loadDecksCombobox();
             this.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosing(WindowEvent e) {
                     try {
                         // Обновляем файл Excel
-                        ExcelReader reader = new ExcelReader();
-                        reader.saveStatistics(globalWinnings, globalLosses, globalBank);
-                        System.out.println("сохранил");
+                        ExcelReader excelReader = new ExcelReader();
+                        excelReader.saveStatistics(globalWinnings, globalLosses, globalBank);
                         System.exit(0);
-                    } catch (IOException | InvalidFormatException ex) {}
+                    } catch (IOException | InvalidFormatException ex) {
+                    }
                 }
             });
-        } catch (IOException | InvalidFormatException ex) {
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFormatException ex) {
             Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -152,14 +168,16 @@ public class StartScreen extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         nameOfGame = new javax.swing.JLabel();
         setCardsButton = new javax.swing.JButton();
-        startGameButton = new javax.swing.JButton();
-        picture = new javax.swing.JLabel();
-        playersLabel = new javax.swing.JLabel();
-        playersComboBox = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
         globalWinningsLabel = new javax.swing.JLabel();
         globalLossesLabel = new javax.swing.JLabel();
         globalBankLabel = new javax.swing.JLabel();
+        picture = new javax.swing.JLabel();
+        startGameButton = new javax.swing.JButton();
+        playersLabel = new javax.swing.JLabel();
+        playersComboBox = new javax.swing.JComboBox<>();
+        decksLabel = new javax.swing.JLabel();
+        decksComboBox = new javax.swing.JComboBox<>();
 
         setCrads.setFocusTraversalPolicyProvider(true);
         setCrads.setSize(new java.awt.Dimension(440, 400));
@@ -336,19 +354,8 @@ public class StartScreen extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 325, Short.MAX_VALUE)
-        );
 
         nameOfGame.setFont(new java.awt.Font("Stencil", 0, 12)); // NOI18N
         nameOfGame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -361,20 +368,6 @@ public class StartScreen extends javax.swing.JFrame {
             }
         });
 
-        startGameButton.setText("Начать игру");
-        startGameButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startGameButtonActionPerformed(evt);
-            }
-        });
-
-        picture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-
-        playersLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
-        playersLabel.setText("выберите число соперников:");
-
-        playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
-
         jLabel1.setText("Глобальный счет:");
 
         globalWinningsLabel.setText("Победы:");
@@ -383,69 +376,101 @@ public class StartScreen extends javax.swing.JFrame {
 
         globalBankLabel.setText("Банк:");
 
+        picture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        startGameButton.setText("Начать игру");
+        startGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startGameButtonActionPerformed(evt);
+            }
+        });
+
+        playersLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        playersLabel.setText("выберите число соперников:");
+
+        playersComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4" }));
+
+        decksLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        decksLabel.setText("выберите колоду:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(playersLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(globalBankLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(globalWinningsLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(globalLossesLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(picture, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(decksLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(decksComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(167, 167, 167)
+                .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(playersLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(globalWinningsLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(globalLossesLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(globalBankLabel))
+                    .addComponent(picture, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(decksLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(decksComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(playersLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(playersComboBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 557, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(globalLossesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(globalWinningsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(globalBankLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(picture, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(122, 122, 122))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(195, 195, 195))))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(nameOfGame, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(setCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(playersLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(playersComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(picture, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(12, 12, 12))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(20, 20, 20)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(globalWinningsLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(globalLossesLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(globalBankLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(startGameButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -454,16 +479,41 @@ public class StartScreen extends javax.swing.JFrame {
 
     private void setCardsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setCardsButtonActionPerformed
         initComboBoxes();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (screenSize.width - setCrads.getWidth()) / 2;
+        int y = (screenSize.height - setCrads.getHeight()) / 2;
+        setCrads.setLocation(x, y);
         setCrads.setVisible(true);
     }//GEN-LAST:event_setCardsButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
-        refreshCards();
+        try {
+            refreshCards();
+            DeckForJson deck = new DeckForJson();
+            System.out.println(deck.getCreationDate());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            decks.add(deck);
+            // Конвертируем список в JSON строку
+            String json = gson.toJson(decks);
+            // Сохраняем JSON строку в файл
+            FileWriter writer = new FileWriter(System.getProperty("user.dir") + "/decks.json");
+            writer.write(json);
+            writer.close();
+            loadDecksCombobox();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(StartScreen.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void startGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startGameButtonActionPerformed
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
+        int index = decksComboBox.getSelectedIndex();
+        decks.get(index).getList().forEach(pair -> pair.getCard().setNuclide(pair.getNuclide()));
+        if (checkDeck( decks.get(index))) {
+            return;
+        }
         switch (Integer.parseInt((String) playersComboBox.getSelectedItem())) {
             case 1 -> {
                 PlayersScreen screen = new TwoPlayersScreen(this);
@@ -499,15 +549,12 @@ public class StartScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_startGameButtonActionPerformed
 
     public int getBalanceForGame() {
-//        System.out.println("банк перед началом игры до взятия денег: " + globalBank);
         if (globalBank >= 100) {
             globalBank -= 100;
-//            System.out.println("банк после взятия денег и начала: " + globalBank);
             return 100;
         } else {
             int balanceForGame = globalBank;
             globalBank = 0;
-//            System.out.println("банк после взятия денег и начала: " + globalBank);
             return balanceForGame;
         }
     }
@@ -576,15 +623,41 @@ public class StartScreen extends javax.swing.JFrame {
         setCrads.dispose();
     }
 
+    private void loadDecksCombobox() throws FileNotFoundException {
+        Gson gson = new Gson();
+        FileReader reader = new FileReader(System.getProperty("user.dir") + "/decks.json");
+        java.lang.reflect.Type deckListType = new TypeToken<List<DeckForJson>>() {
+        }.getType();
+        decks = gson.fromJson(reader, deckListType);
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+
+        for (int i = 0; i < decks.size(); i++) {
+            Date date = decks.get(i).getCreationDate();
+            String item = (i + 1) + ". " + date.toString();
+            model.addElement(item);
+        }
+
+        decksComboBox.setModel(model);
+    }
+
     public void updateStatistics() {
         globalLossesLabel.setText("проигрыши: " + globalLosses);
         globalWinningsLabel.setText("выигрыши: " + globalWinnings);
         globalBankLabel.setText("Банк: " + globalBank);
     }
 
+    private boolean checkDeck(DeckForJson deck) {
+        Date date = deck.getCreationDate();
+        List<CardForJson> cards = deck.getList();
+//        cards.forEach(card -> );
+        return false;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> aceComboBox;
     private javax.swing.JLabel aceLable;
+    private javax.swing.JComboBox<String> decksComboBox;
+    private javax.swing.JLabel decksLabel;
     private javax.swing.JComboBox<String> eightComboBox;
     private javax.swing.JLabel eightLable;
     private javax.swing.JLabel globalBankLabel;
@@ -620,4 +693,5 @@ public class StartScreen extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> tenComboBox;
     private javax.swing.JLabel tenLable;
     // End of variables declaration//GEN-END:variables
+
 }
