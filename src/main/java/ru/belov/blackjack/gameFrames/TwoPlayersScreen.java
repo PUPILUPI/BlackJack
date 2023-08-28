@@ -9,6 +9,7 @@ import ru.belov.blackjack.players.User;
 import ru.belov.blackjack.players.Bot;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import ru.belov.blackjack.cards.Card;
 import ru.belov.blackjack.cards.Detector;
 import ru.belov.blackjack.cards.DetectorForDeck;
 import ru.belov.blackjack.cards.Game;
@@ -296,6 +297,7 @@ public final class TwoPlayersScreen extends PlayersScreen {
     @Override
     public void startGame() {
         game = new Game();
+        System.out.println(Card.SIX.getNuclide().getName());
         game.getPlayers().add(0, new User("A"));
         game.getPlayers().add(1, new Bot("B"));
         loadMap();

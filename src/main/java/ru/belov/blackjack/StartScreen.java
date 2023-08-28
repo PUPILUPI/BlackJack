@@ -14,6 +14,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -25,6 +28,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import ru.belov.blackjack.cards.CardForJson;
 import ru.belov.blackjack.cards.DeckForJson;
@@ -478,6 +482,8 @@ public class StartScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void setCardsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setCardsButtonActionPerformed
+        int index = decksComboBox.getSelectedIndex();
+        decks.get(index).getList().forEach(pair -> pair.getCard().setNuclide(pair.getNuclide()));
         initComboBoxes();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (screenSize.width - setCrads.getWidth()) / 2;
@@ -511,7 +517,7 @@ public class StartScreen extends javax.swing.JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int index = decksComboBox.getSelectedIndex();
         decks.get(index).getList().forEach(pair -> pair.getCard().setNuclide(pair.getNuclide()));
-        if (checkDeck( decks.get(index))) {
+        if (checkDeck(decks.get(index))) {
             return;
         }
         switch (Integer.parseInt((String) playersComboBox.getSelectedItem())) {
@@ -638,6 +644,7 @@ public class StartScreen extends javax.swing.JFrame {
         }
 
         decksComboBox.setModel(model);
+        int index = decksComboBox.getSelectedIndex();
     }
 
     public void updateStatistics() {
@@ -648,8 +655,22 @@ public class StartScreen extends javax.swing.JFrame {
 
     private boolean checkDeck(DeckForJson deck) {
         Date date = deck.getCreationDate();
+        LocalDate localDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         List<CardForJson> cards = deck.getList();
-//        cards.forEach(card -> );
+        double minimumHalfLife = Double.MAX_VALUE;
+        for (CardForJson card : cards) {
+            if (card.getNuclide().getHalfLife() < minimumHalfLife) {
+                minimumHalfLife = card.getNuclide().getHalfLife();
+            }
+        }
+        LocalDate currentDate = LocalDate.now();
+        long daysBetween = ChronoUnit.DAYS.between(localDate, currentDate);
+        if (daysBetween >= minimumHalfLife) {
+            JOptionPane.showMessageDialog(null, "Нуклид на карте развалился, вам запрещено использовать данную колоду!", "Уведомление", JOptionPane.WARNING_MESSAGE);
+            return true;
+        } else if (daysBetween >= minimumHalfLife / 2) {
+            JOptionPane.showMessageDialog(null, "Вы используете колоду, нуклиду в которой осталось \nжить меньше половины своего срока", "Уведомление", JOptionPane.WARNING_MESSAGE);
+        }
         return false;
     }
 
