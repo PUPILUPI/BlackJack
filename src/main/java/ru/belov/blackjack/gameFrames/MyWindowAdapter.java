@@ -103,6 +103,7 @@ public class MyWindowAdapter extends WindowAdapter {
             closingFrame.getLastMoveInfo().setText("Здесь будет информаця о последнем ходе.");
             closingFrame.updateBankInfo(closingFrame.getBankInfoLabel(), closingFrame.getGame());
             closingFrame.updateStatistics(closingFrame);
+            closingFrame.checkOn21and22();
         }
     }
 
@@ -123,6 +124,7 @@ public class MyWindowAdapter extends WindowAdapter {
                 closingFrame.getLastMoveInfo().setText("Здесь будет информаця о последнем ходе.");
                 closingFrame.updateBankInfo(closingFrame.getBankInfoLabel(), closingFrame.getGame());
                 closingFrame.updateStatistics(closingFrame);
+                closingFrame.checkOn21and22();
             }
         }
 

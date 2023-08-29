@@ -30,7 +30,7 @@ public abstract class PlayersScreen extends javax.swing.JFrame implements Update
     protected Map<JLabel, Player> mapLabelToBot = new HashMap<>();
     protected Map<JLabel, Game> mapLabelToGame = new HashMap<>();
 
-    protected void checkOn21and22() {
+    public void checkOn21and22() {
         for (int i = 0; i < game.getPlayers().size(); i++) {
             Player player = game.getPlayers().get(i);
             if (player.getTotalPoints() == 21 || player.getTotalPoints() == 22) {

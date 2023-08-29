@@ -375,7 +375,7 @@ public class FivePlayersScreen extends PlayersScreen {
         updateBankInfo(this.bankInfoLabel, this.game);
         updateButtons();
         updateStatistics(this);
-        checkOn21and22();
+//        checkOn21and22();
     }
 
     public void updateButtons() {

@@ -527,6 +527,7 @@ public class StartScreen extends javax.swing.JFrame {
                 int y = (screenSize.height - screen.getHeight()) / 2;
                 screen.setLocation(x, y);
                 screen.setVisible(true);
+                screen.checkOn21and22();
             }
             case 2 -> {
                 PlayersScreen screen = new ThreePlayersScreen(this);
@@ -534,6 +535,7 @@ public class StartScreen extends javax.swing.JFrame {
                 int y = (screenSize.height - screen.getHeight()) / 2;
                 screen.setLocation(x, y);
                 screen.setVisible(true);
+                screen.checkOn21and22();
             }
             case 3 -> {
                 PlayersScreen screen = new FourPlayersScreen(this);
@@ -541,6 +543,7 @@ public class StartScreen extends javax.swing.JFrame {
                 int y = (screenSize.height - screen.getHeight()) / 2;
                 screen.setLocation(x, y);
                 screen.setVisible(true);
+                screen.checkOn21and22();
             }
             case 4 -> {
                 PlayersScreen screen = new FivePlayersScreen(this);
@@ -548,6 +551,7 @@ public class StartScreen extends javax.swing.JFrame {
                 int y = (screenSize.height - screen.getHeight()) / 2;
                 screen.setLocation(x, y);
                 screen.setVisible(true);
+                screen.checkOn21and22();
             }
             default ->
                 throw new AssertionError();
